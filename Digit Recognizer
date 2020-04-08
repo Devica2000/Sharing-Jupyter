@@ -1,0 +1,176 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[90]:
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt 
+
+
+# In[91]:
+
+
+digits=pd.read_csv('C:/Users/devic/Desktop/train.csv')
+
+
+# In[92]:
+
+
+digits.head()
+
+
+# In[93]:
+
+
+digits_test=pd.read_csv('C:/Users/devic/Desktop/test.csv')
+
+
+# In[94]:
+
+
+digits_test.head()
+
+
+# In[95]:
+
+
+digits.shape #784 features 1 label image is of sixe 28*28
+
+
+# In[96]:
+
+
+digits_test.shape 
+
+
+# In[97]:
+
+
+x=digits.drop(['label'],axis=1).values
+y=digits[['label']].values
+
+
+# In[98]:
+
+
+x
+
+
+# In[99]:
+
+
+t=x[100].reshape(28,28)
+
+
+# In[100]:
+
+
+t #used for plotting and image generation 
+
+
+# In[101]:
+
+
+print(y[100])
+plt.imshow(t)
+plt.show()
+
+
+# In[14]:
+
+
+#this was not a prediction. we just printed the value at 100 location. we know it is a nine but the machine does not .
+
+
+# In[15]:
+
+
+#training starts 
+
+
+# In[102]:
+
+
+from sklearn.tree import DecisionTreeClassifier
+dmodel=DecisionTreeClassifier()
+
+
+# In[103]:
+
+
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest=train_test_split(x,y)
+
+
+# In[104]:
+
+
+dmodel.fit(xtrain,ytrain)
+
+
+# In[105]:
+
+
+dmodel.score(xtest,ytest)
+
+
+# In[106]:
+
+
+from sklearn.ensemble import RandomForestClassifier
+clf=RandomForestClassifier(n_estimators=10)
+clf=clf.fit(xtrain,ytrain)
+
+
+# In[107]:
+
+
+clf.score(xtest,ytest) #fast as compared to nearest neighbor and high accuracy 
+
+
+# In[108]:
+
+
+xtrain
+
+
+# In[109]:
+
+
+type(digits_test)
+
+
+# In[110]:
+
+
+digits_test
+
+
+# In[111]:
+
+
+digits_test=digits_test.values
+
+
+# In[112]:
+
+
+digits_test
+
+
+# In[113]:
+
+
+dp=dmodel.predict(digits_test) #predicted value 
+
+
+# In[116]:
+
+
+print(dp[24])
+z=digits_test[24].reshape(28,28)
+plt.imshow(z)
+plt.show() #predicting in test 
+
